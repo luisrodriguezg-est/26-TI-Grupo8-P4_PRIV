@@ -1,0 +1,1 @@
+Esta carpeta tiene que guardar los ficheros YAML para configurar el despliegue de servicios con Fux

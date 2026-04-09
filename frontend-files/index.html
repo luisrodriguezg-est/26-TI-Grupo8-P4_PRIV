@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Práctica 4 – Tecnologías de Internet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:        #f0f4f8;
+      --surface:   #ffffff;
+      --surface-2: #f7f9fc;
+      --border:    #dde3ec;
+      --blue-soft: #dbeafe;
+      --blue:      #3b82f6;
+      --blue-dark: #1d4ed8;
+      --green-soft:#dcfce7;
+      --green:     #22c55e;
+      --sky-soft:  #e0f2fe;
+      --sky:       #0ea5e9;
+      --violet-soft:#ede9fe;
+      --violet:    #7c3aed;
+      --text:      #1e293b;
+      --text-2:    #64748b;
+      --text-3:    #94a3b8;
+      --radius-lg: 20px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --shadow:    0 4px 24px rgba(30,41,59,.07), 0 1px 4px rgba(30,41,59,.04);
+      --font: 'DM Sans', system-ui, sans-serif;
+      --mono: 'DM Mono', ui-monospace, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Header ───────────────────────────────────────────────── */
+    .site-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .k8s-logo {
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
+    }
+
+    .header-text h1 {
+      margin: 0 0 0.15rem;
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .header-text p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text-2);
+      font-weight: 400;
+    }
+
+    .header-badge {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem 0.85rem;
+      border-radius: 999px;
+      background: var(--violet-soft);
+      color: var(--violet);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ── Layout ───────────────────────────────────────────────── */
+    .page {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3rem;
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    /* ── Card base ────────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 1.6rem 1.75rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+    }
+
+    .card-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.85rem;
+    }
+
+    .card-label .dot {
+      width: 7px; height: 7px;
+      border-radius: 999px;
+    }
+
+    .card h2 {
+      margin: 0 0 0.35rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 0.88rem;
+      color: var(--text-2);
+      line-height: 1.6;
+    }
+
+    /* ── Visit counter ────────────────────────────────────────── */
+    .card.card-counter { background: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%); }
+
+    .counter-value {
+      font-size: 3.5rem;
+      font-weight: 300;
+      letter-spacing: -0.04em;
+      color: var(--blue-dark);
+      line-height: 1;
+      margin: 0.75rem 0 0.3rem;
+      font-family: var(--mono);
+    }
+
+    .counter-value.loading {
+      font-size: 1rem;
+      color: var(--text-3);
+      font-family: var(--font);
+      font-weight: 400;
+    }
+
+    .counter-meta {
+      font-size: 0.82rem;
+      color: var(--text-2);
+    }
+
+    /* ── Weather card ─────────────────────────────────────────── */
+    .card.card-weather { background: linear-gradient(135deg, #f0fdf4 0%, #f0f9ff 100%); }
+
+    .weather-main {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.75rem;
+      margin: 0.75rem 0 0.5rem;
+    }
+
+    .weather-temp {
+      font-size: 3rem;
+      font-weight: 300;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      line-height: 1;
+      font-family: var(--mono);
+    }
+
+    .weather-icon {
+      font-size: 2.5rem;
+      line-height: 1;
+      margin-bottom: 0.1rem;
+    }
+
+    .weather-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem 1.5rem;
+      margin-top: 0.9rem;
+    }
+
+    .weather-stat {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .weather-stat-label {
+      font-size: 0.72rem;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 500;
+    }
+
+    .weather-stat-value {
+      font-size: 0.93rem;
+      font-weight: 500;
+      color: var(--text);
+      font-family: var(--mono);
+    }
+
+    .weather-desc {
+      font-size: 0.85rem;
+      color: var(--text-2);
+      margin-top: 0.35rem;
+    }
+
+    .weather-update {
+      font-size: 0.75rem;
+      color: var(--text-3);
+      margin-top: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .weather-update::before {
+      content: '';
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 999px;
+      background: var(--green);
+      box-shadow: 0 0 0 3px var(--green-soft);
+    }
+
+    /* Loading / error states */
+    .state-loading, .state-error {
+      font-size: 0.88rem;
+      color: var(--text-3);
+      padding: 1rem 0 0.5rem;
+    }
+    .state-error { color: #ef4444; }
+
+    /* ── Architecture info card ───────────────────────────────── */
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-top: 0.85rem;
+    }
+
+    .arch-item {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1rem;
+      text-align: center;
+    }
+
+    .arch-item .arch-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .arch-item .arch-name {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .arch-item .arch-role {
+      font-size: 0.75rem;
+      color: var(--text-3);
+      margin-top: 0.1rem;
+    }
+
+    .arch-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-3);
+      font-size: 1rem;
+      padding-top: 1.8rem;
+    }
+
+    /* ── Footer ───────────────────────────────────────────────── */
+    .site-footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.78rem;
+      color: var(--text-3);
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    /* ── Responsive ───────────────────────────────────────────── */
+    @media (max-width: 680px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .arch-grid { grid-template-columns: 1fr; }
+      .header-badge { display: none; }
+      .site-header { gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header class="site-header">
+    <!-- Kubernetes SVG logo (inline, no external dependency) -->
+    <!--<svg class="k8s-logo" viewBox="0 0 722.9 701.9" xmlns="http://www.w3.org/2000/svg" aria-label="Kubernetes logo">
+      <path d="M358.1 3.4c-9.4 0-18.5 2.7-26.3 7.7L89.6 159.2c-16 10.1-25.8 27.5-25.8 46.2v297c0 18.7 9.8 36.1 25.8 46.2l242.2 148.1c7.8 5 16.9 7.7 26.3 7.7s18.5-2.7 26.3-7.7l242.2-148.1c16-10.1 25.8-27.5 25.8-46.2v-297c0-18.7-9.8-36.1-25.8-46.2L384.4 11.1c-7.8-5-16.9-7.7-26.3-7.7z" fill="#326ce5"/>
+      <path d="M358.1 3.4c-9.4 0-18.5 2.7-26.3 7.7L89.6 159.2c-16 10.1-25.8 27.5-25.8 46.2v297c0 18.7 9.8 36.1 25.8 46.2l242.2 148.1c7.8 5 16.9 7.7 26.3 7.7s18.5-2.7 26.3-7.7l242.2-148.1c16-10.1 25.8-27.5 25.8-46.2v-297c0-18.7-9.8-36.1-25.8-46.2L384.4 11.1c-7.8-5-16.9-7.7-26.3-7.7z" fill="none" stroke="#fff" stroke-width="6"/>
+      <path d="M358.1 80.5c-3.4 0-6.7.9-9.6 2.8L148 202.6c-5.9 3.7-9.4 10.1-9.4 16.9v238.7c0 6.8 3.6 13.2 9.4 16.9l200.5 119.3c2.9 1.8 6.2 2.8 9.6 2.8s6.7-.9 9.6-2.8l200.5-119.3c5.9-3.7 9.4-10.1 9.4-16.9V219.5c0-6.8-3.6-13.2-9.4-16.9L367.7 83.3c-2.9-1.9-6.2-2.8-9.6-2.8z" fill="#fff"/>
+      <path d="M358.1 140.3c-24.5 0-44.3 19.8-44.3 44.3 0 5.2.9 10.2 2.6 14.9l-83.6 56.3c-7.7-8.2-18.6-13.3-30.7-13.3-23.2 0-42 18.8-42 42s18.8 42 42 42c4.5 0 8.8-.7 12.8-2l42.1 97.2c-12.2 8.2-20.3 22.1-20.3 37.8 0 25.1 20.3 45.4 45.4 45.4 16.2 0 30.5-8.5 38.6-21.3h74.9c8.1 12.8 22.4 21.3 38.6 21.3 25.1 0 45.4-20.3 45.4-45.4 0-15.7-8.1-29.5-20.3-37.8l42.1-97.2c4 1.3 8.3 2 12.8 2 23.2 0 42-18.8 42-42s-18.8-42-42-42c-12.1 0-23 5.1-30.7 13.3l-83.6-56.3c1.7-4.7 2.6-9.7 2.6-14.9 0-24.5-19.8-44.3-44.3-44.3zm0 28.5c8.7 0 15.8 7.1 15.8 15.8s-7.1 15.8-15.8 15.8-15.8-7.1-15.8-15.8 7.1-15.8 15.8-15.8zm-144.6 97c7.5 0 13.5 6 13.5 13.5s-6 13.5-13.5 13.5-13.5-6-13.5-13.5 6-13.5 13.5-13.5zm289.2 0c7.5 0 13.5 6 13.5 13.5s-6 13.5-13.5 13.5-13.5-6-13.5-13.5 6-13.5 13.5-13.5zm-154.6 7.2l-13.8 79.5c-6.1 1.6-11.5 4.7-15.8 9l-76.6-34.5 83.6-56.3c5.8 1.5 14.7 2 22.6 2.3zm20 0c7.9-.3 16.8-.8 22.6-2.3l83.6 56.3-76.6 34.5c-4.3-4.3-9.7-7.4-15.8-9zm-15 88.4c.3 0 .6 0 .9.1.3 0 .6-.1.9-.1h.5l14.6 79.5h-31.9l14.6-79.5zm-92.3 15.1l72.4 32.6c.1 6.5 1.8 12.7 4.7 18.1H262c.8-6.8-3.6-39.5-1.2-50.7zm204.6 0c2.4 11.2-2 43.9-1.2 50.7h-75.8c2.9-5.4 4.6-11.5 4.7-18.1zm-184.5 79.8h134c-4.4 7.7-6.9 16.5-6.9 25.9 0 9.3 2.4 18 6.6 25.5h-133.4c4.2-7.5 6.6-16.2 6.6-25.5 0-9.4-2.5-18.2-6.9-25.9zm-25.1 25.9c9.6 0 17.4 7.8 17.4 17.4s-7.8 17.4-17.4 17.4-17.4-7.8-17.4-17.4 7.8-17.4 17.4-17.4zm234.8 0c9.6 0 17.4 7.8 17.4 17.4s-7.8 17.4-17.4 17.4-17.4-7.8-17.4-17.4 7.8-17.4 17.4-17.4z" fill="#326ce5"/>
+    </svg> -->
+    <img class="k8s-logo" src="https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.svg" alt="Logo de Kubernetes">
+
+    <div class="header-text">
+      <h1>Práctica 4 –- Tecnologías de Internet -- </h1>
+      <p>Escalado, entrega continua con GitOps y Cloud</p>
+    </div>
+
+    <span class="header-badge">MUIT · UAH</span>
+  </header>
+
+  <!-- ── Page body ── -->
+  <main class="page">
+
+    <!-- Architecture overview -->
+    <div class="card">
+      <div class="card-label" style="color:var(--violet);">
+        <span class="dot" style="background:var(--violet);"></span>
+        Arquitectura del despliegue
+      </div>
+      <div class="arch-grid">
+        <div class="arch-item">
+          <div class="arch-icon">🌐</div>
+          <div class="arch-name">Nginx</div>
+          <div class="arch-role">Frontend / servidor web</div>
+        </div>
+        <div class="arch-item">
+          <div class="arch-icon">🗄️</div>
+          <div class="arch-name">Redis</div>
+          <div class="arch-role">Contador de visitas</div>
+        </div>
+        <div class="arch-item">
+          <div class="arch-icon">🌤️</div>
+          <div class="arch-name">wttr.in</div>
+          <div class="arch-role">Servicio meteorológico</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Counter + Weather -->
+    <div class="grid-2">
+
+      <!-- Visit counter -->
+      <div class="card card-counter">
+        <div class="card-label" style="color:var(--blue);">
+          <span class="dot" style="background:var(--blue);"></span>
+          Redis · Contador de visitas
+        </div>
+        <h2>Visitas totales</h2>
+        <div class="counter-value loading" id="counter-value">Conectando…</div>
+        <p class="counter-meta" id="counter-meta"></p>
+      </div>
+
+      <!-- Weather card -->
+      <div class="card card-weather">
+        <div class="card-label" style="color:var(--sky);">
+          <span class="dot" style="background:var(--sky);"></span>
+          wttr.in · Tiempo en Madrid
+        </div>
+        <h2>Condiciones actuales</h2>
+        <div id="weather-content">
+          <p class="state-loading">Cargando datos meteorológicos…</p>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="site-footer">
+    Tecnologías de Internet &nbsp;·&nbsp;
+    Máster Universitario en Ingeniería de Telecomunicación (MUIT) &nbsp;·&nbsp;
+    Universidad de Alcalá
+  </footer>
+
+  <!-- ── Scripts ── -->
+  <script>
+    // ── Visit counter (Redis via /counter endpoint) ──────────────────────────
+    function loadCounter() {
+      fetch('/counter')
+        .then(r => {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.text();
+        })
+        .then(text => {
+          const el = document.getElementById('counter-value');
+          el.classList.remove('loading');
+          el.textContent = text.trim();
+          document.getElementById('counter-meta').textContent =
+            'personas desde la creación del servicio';
+        })
+        .catch(err => {
+          const el = document.getElementById('counter-value');
+          el.classList.add('loading');
+          el.textContent = 'Sin conexión con Redis';
+          console.error('Counter error:', err);
+        });
+    }
+
+    loadCounter();
+
+
+    // ── Weather (wttr.in via /weather proxy endpoint) ─────────────────────────
+    // Kubernetes: define un Service + Ingress que haga proxy de /weather
+    // hacia https://wttr.in/Madrid?format=j1  para evitar CORS en producción.
+    // En desarrollo puedes cambiarlo a la URL pública directamente.
+
+    const WMO_ICONS = {
+      113: '☀️', 116: '⛅', 119: '☁️', 122: '☁️',
+      143: '🌫️', 176: '🌦️', 179: '🌨️', 182: '🌧️',
+      185: '🌧️', 200: '⛈️', 227: '🌨️', 230: '❄️',
+      248: '🌫️', 260: '🌫️', 263: '🌦️', 266: '🌦️',
+      281: '🌧️', 284: '🌧️', 293: '🌦️', 296: '🌦️',
+      299: '🌧️', 302: '🌧️', 305: '🌧️', 308: '⛈️',
+      311: '🌧️', 314: '🌧️', 317: '🌨️', 320: '🌨️',
+      323: '🌨️', 326: '🌨️', 329: '❄️', 332: '❄️',
+      335: '❄️', 338: '❄️', 350: '🌧️', 353: '🌦️',
+      356: '🌧️', 359: '⛈️', 362: '🌨️', 365: '🌨️',
+      368: '🌨️', 371: '❄️', 374: '🌨️', 377: '🌨️',
+      386: '⛈️', 389: '⛈️', 392: '⛈️', 395: '❄️',
+    };
+
+    function weatherIcon(code) {
+      return WMO_ICONS[Number(code)] || '🌡️';
+    }
+
+    function renderWeather(data) {
+      if (data.data) data = data.data;
+      const current = data.current_condition[0];
+      const tempC   = current.temp_C;
+      const feelsC  = current.FeelsLikeC;
+      const desc    = current.lang_es
+                        ? current.lang_es[0].value
+                        : current.weatherDesc[0].value;
+      const humidity = current.humidity;
+      const windKph  = current.windspeedKmph;
+      const visKm    = current.visibility;
+      const code     = current.weatherCode;
+      const icon     = weatherIcon(code);
+
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+
+      document.getElementById('weather-content').innerHTML = `
+        <div class="weather-main">
+          <span class="weather-icon">${icon}</span>
+          <span class="weather-temp">${tempC}°C</span>
+        </div>
+        <p class="weather-desc">${desc}</p>
+        <div class="weather-grid">
+          <div class="weather-stat">
+            <span class="weather-stat-label">Sensación</span>
+            <span class="weather-stat-value">${feelsC}°C</span>
+          </div>
+          <div class="weather-stat">
+            <span class="weather-stat-label">Humedad</span>
+            <span class="weather-stat-value">${humidity}%</span>
+          </div>
+          <div class="weather-stat">
+            <span class="weather-stat-label">Viento</span>
+            <span class="weather-stat-value">${windKph} km/h</span>
+          </div>
+          <div class="weather-stat">
+            <span class="weather-stat-label">Visibilidad</span>
+            <span class="weather-stat-value">${visKm} km</span>
+          </div>
+        </div>
+        <p class="weather-update">Actualizado a las ${timeStr} · se refresca cada 5 min</p>
+      `;
+    }
+
+    function loadWeather() {
+      // En Kubernetes, usar /weather (proxy via Ingress/Service hacia wttr.in).
+      // Para pruebas locales sin proxy activo, cambia la URL por:
+      // 'https://wttr.in/Madrid?format=j1'
+      fetch('/weather')
+        .then(r => {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+        .then(renderWeather)
+        .catch(err => {
+          document.getElementById('weather-content').innerHTML =
+            `<p class="state-error">No se pudo conectar con el servicio de meteorología.<br>
+             Comprueba que el proxy <code>/weather</code> está configurado en el Ingress.</p>`;
+          console.error('Weather error:', err);
+        });
+    }
+
+    loadWeather();
+    setInterval(loadWeather, 5 * 60 * 1000); // refrescar cada 5 min
+  </script>
+
+</body>
+</html>

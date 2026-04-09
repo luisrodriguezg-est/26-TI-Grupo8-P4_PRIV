@@ -1,0 +1,1 @@
+Esta carpeta tiene que guardar el YAML del deployment sobre el que actúa Flux, y yamls internos que generará internamente Flux dentro de una subcarpeta llamada flux-system
