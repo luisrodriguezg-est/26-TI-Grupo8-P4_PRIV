@@ -2,18 +2,20 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: # A rellenar por el estudiantado
+  name: p4-ti-grupo8-hpa # A rellenar por el estudiantado
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: # A rellenar por el estudiantado
-  minReplicas: # A rellenar por el estudiantado
-  maxReplicas: # A rellenar por el estudiantado
+    name: ti-p3-grupo8-front #  A rellenar por el estudiantado
+  minReplicas: 1 # A rellenar por el estudiantado
+  maxReplicas: 5 # A rellenar por el estudiantado
   metrics:
   - type: Resource
     resource:
-      name: # A rellenar por el estudiantado
+      name: cpu # A rellenar por el estudiantado
       target:
-        type: # A rellenar por el estudiantado
-        averageUtilization: # A rellenar por el estudiantado
+        type: Utilization # A rellenar por el estudiantado
+        averageUtilization: 50 # A rellenar por el estudiantado
+
+
