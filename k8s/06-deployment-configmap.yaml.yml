@@ -2,28 +2,28 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name:   ti-p3-grupo8-front #A definir por el estudiantado. Identificador único del Deployment        
+  name: ti-p3-grupo8-front #A definir por el estudiantado. Identificador único del Deployment        
   namespace: default
   labels:
-    app:  ti-p3-grupo8-front #A definir por el estudiantado. Etiqueta que permite agrupar recursos relacionados. Normalmente se pone el mismo nombre que a la app
+    app: ti-p3-grupo8-front #A definir por el estudiantado. Etiqueta que permite agrupar recursos relacionados. Normalmente se pone el mismo nombre que a la app
 spec:
-  replicas:  3         
+  replicas: 3
   selector:
     matchLabels:
-      app:   ti-p3-grupo8-front #A definir por el estudiantado. #El deployment gestiona los Pods asociados a este label. Mismo nombre que app: dentro de template
-  template:       #Plantilla para crear cada pod
+      app: ti-p3-grupo8-front #A definir por el estudiantado. #El deployment gestiona los Pods asociados a este label. Mismo nombre que app: dentro de template
+  template: #Plantilla para crear cada pod
     metadata:
       labels:
         app: ti-p3-grupo8-front #A definir por el estudiantado. Nombre de la aplicación desplegada. #El deployment crea Pods adociados a este label
     spec:
       containers:
       - name: ti-p3-grupo8-front-cont #A definir por el estudiantado     
-        image: ghcr.io/luisrodriguezg-est/26grupo8-p4-image-actions:sha255-abc123 # {"$imagepolicy": "flux-system:p4-ti-grupo8-flux-app-policy"}
+        image: ghcr.io/luisrodriguezg-est/26grupo8-p4-image-actions:sha-5 # {"$imagepolicy": "flux-system:p4-ti-grupo8-flux-app-policy"}
         ports:
         - containerPort: 80 #Nombre a definir por el estudiantado       
         resources:
           requests:
-            cpu: "50m"     #Garantizamos 50 milicores de CPU
+            cpu: "50m" #Garantizamos 50 milicores de CPU
             memory: "64Mi" #Garantizamos 64 Megas de RAM expresado binario: 64*1024*1024 Bytes.
           limits:
             cpu: "100m"
@@ -34,13 +34,9 @@ spec:
           subPath: default.conf
           #-name: shared-data
           #mountPath: /data
-      
-      
-      volumes: 
+      volumes:
       - name: nginx-config
         configMap:
           name: nginx-config #Nombre del ConfigMap creado en el manifiesto 05-configmap.yaml
-      
-        
       imagePullSecrets:
-        - name: ghcr-secret #A definir por el estudiantado. #Nombre del secreto configurado en Kubernetes
+      - name: ghcr-secret #A definir por el estudiantado. #Nombre del secreto configurado en Kubernetes
