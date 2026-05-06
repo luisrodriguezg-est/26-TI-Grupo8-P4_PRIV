@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: ti-p3-grupo8-front-cont #A definir por el estudiantado     
-        image: ghcr.io/luisrodriguezg-est/26grupo8-p4-image-actions:sha-5 # {"$imagepolicy": "flux-system:p4-ti-grupo8-flux-app-policy"}
+        image: ghcr.io/luisrodriguezg-est/26grupo8-p4-image-actions:sha256-5 # {"$imagepolicy": "flux-system:p4-ti-grupo8-flux-app-policy"}
         ports:
         - containerPort: 80 #Nombre a definir por el estudiantado       
         resources:
