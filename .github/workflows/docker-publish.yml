@@ -11,7 +11,7 @@ on:
   push:
     branches: [ "main" ]
     paths: 
-      - 'frontend-files/**'
+      - '../frontend-files/**'
     # Publish semver tags as releases.
     # tags: [ 'v*.*.*' ]
   #pull_request:
