@@ -1,0 +1,22 @@
+##flux/image-update-automation.yaml
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageUpdateAutomation
+metadata:
+  name: p4-ti-grupo8-flux-app
+  namespace: flux-system       # Desplegado en el namespace de Flux
+spec:
+  interval: 1m                 # Intervalo de 1 minuto
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  git:
+    commit:
+      author:
+        email: fluxcdbot@users.noreply.github.com
+        name: fluxcdbot
+      messageTemplate: 'chore: update {{range .Changed.Images}}{{println .}}{{end}}'
+    push:
+      branch: main
+  update:
+    path: ./k8s
+    strategy: Setters

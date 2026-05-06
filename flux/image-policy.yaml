@@ -1,0 +1,15 @@
+## flux/image-policy.yaml
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: p4-ti-grupo8-flux-app-policy
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: p4-ti-grupo8-flux-app
+  filterTags:
+    pattern: '^sha-(?P<ts>[0-9]+)'
+    extract: '$ts'
+  policy:
+    numerical:
+      order: asc
