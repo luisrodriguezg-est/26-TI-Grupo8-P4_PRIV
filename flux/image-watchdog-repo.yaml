@@ -6,7 +6,7 @@ metadata:
   name: p4-ti-grupo8-flux-app  # Nombre solicitado (ajustado a grupo 8)
   namespace: flux-system       # Desplegado en el namespace de Flux
 spec:
-  image: ghcr.io/luisrodriguezg-est/26grupo8-p4-image-actions:sha256-abc123 # Ruta de la imagen del apartado 6
+  image: ghcr.io/luisrodriguezg-est/26grupo8-p4-image-actions # Ruta de la imagen del apartado 6
   interval: 1m                 # Intervalo de 1 minuto
   secretRef:
     name: p4-token-flux        # Referencia al secreto que creaste con tu token

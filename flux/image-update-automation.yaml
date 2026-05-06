@@ -14,7 +14,7 @@ spec:
       author:
         email: fluxcdbot@users.noreply.github.com
         name: fluxcdbot
-      messageTemplate: 'chore: update {{range .Changed.Images}}{{println .}}{{end}}'
+      messageTemplate: 'chore: update image tags via FLux automation'
     push:
       branch: main
   update:
