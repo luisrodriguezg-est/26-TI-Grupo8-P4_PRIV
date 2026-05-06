@@ -3,6 +3,7 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name:   ti-p3-grupo8-front #A definir por el estudiantado. Identificador único del Deployment        
+  namespace: default
   labels:
     app:  ti-p3-grupo8-front #A definir por el estudiantado. Etiqueta que permite agrupar recursos relacionados. Normalmente se pone el mismo nombre que a la app
 spec:
